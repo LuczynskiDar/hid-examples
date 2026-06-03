@@ -111,6 +111,45 @@ On Linux a udev rule file may be needed after installation — without it the de
 
 ---
 
+## BLE on Windows
+
+The `hid` library covers USB HID only. For BLE you need a separate library.
+
+**`bleak` is the standard choice** — uses the Windows WinRT Bluetooth API, no extra DLLs required.
+
+```bash
+pip install bleak
+```
+
+| Library | pip | Notes |
+|---|---|---|
+| `bleak` | `pip install bleak` | recommended — async, Windows/Linux/Mac, actively maintained |
+| `pygatt` | `pip install pygatt` | older, less active |
+
+### What you can test with bleak
+
+- device scanning and advertisement data
+- connect / disconnect
+- reading GATT characteristics (e.g. firmware version, battery level)
+- writing to characteristics (e.g. sending commands)
+- notifications — subscribing to characteristic changes
+
+### Quick start
+
+```python
+import asyncio
+from bleak import BleakScanner
+
+async def scan():
+    devices = await BleakScanner.discover()
+    for d in devices:
+        print(d.address, d.name)
+
+asyncio.run(scan())
+```
+
+---
+
 ## References
 
 - https://stackoverflow.com/questions/70894915/cant-load-hidapi-with-python-library-hid-on-windows
