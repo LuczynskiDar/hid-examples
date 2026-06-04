@@ -108,7 +108,8 @@ async def notify_with_data_change():
                         'properties': char.properties
                     }
                     break
-                    
+                if seen:
+                    break
         await client.start_notify(check_srvcs['uuid'], handler)
         
         await asyncio.sleep(60)
